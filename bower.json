@@ -1,0 +1,16 @@
+{
+  "name": "spp.resolve",
+  "main": "spp.resolve.js",
+  "version": "0.0.0",
+  "authors": [
+    "Stephen Sawchuk <sawchuk@gmail.com>"
+  ],
+  "description": "quit being so imperative with your resolves.",
+  "keywords": [
+    "angular",
+    "routes",
+    "router"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/stephenplusplus/spp.resolve"
+}

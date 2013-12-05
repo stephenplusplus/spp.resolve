@@ -1,0 +1,112 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>spp.resolve</title>
+</head>
+<body ng-app="app">
+  <ng-view />
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.js"></script>
+  <script src="spp.resolve.js"></script>
+  <script>
+    // angular.module('app', ['ngRoute']).
+    //   factory('ProductsService', function ($http) {
+    //     'use strict';
+
+    //     function getAllProducts() {
+    //       // return $http.get('/api/products');
+    //       var fake$http = {
+    //         success: function (cb) {
+    //           window.setTimeout(function () {
+    //             cb(['computer', 'pony', 'tricycle']);
+    //           }, 1500);
+    //           return fake$http;
+    //         },
+    //         error: angular.noop
+    //       };
+
+    //       return fake$http;
+    //     }
+
+    // return {
+    //       getAllProducts: getAllProducts
+    //     }
+    //   }).
+    //   config(function ($routeProvider) {
+    //     'use strict';
+
+    //     $routeProvider.
+    //       when('/products', {
+    //         controller: 'ProductsCtrl',
+    //         template:
+    //           '<h1>I only appear after data has been resolved!</h1>' +
+    //           '<menu>' +
+    //           '  <li ng-repeat="product in products">{{product}}</li>' +
+    //           '</menu>',
+    //         resolve: {
+    //           products: function ($q, ProductsService) {
+    //             var deferred = $q.defer();
+
+    //             ProductsService.
+    //               getAllProducts().
+    //               success(deferred.resolve);
+
+    //             return deferred.promise;
+    //           }
+    //         }
+    //       });
+    //   }).
+    //   controller('ProductsCtrl', function ($scope, products) {
+    //     $scope.products = products;
+    //   });
+    angular.module('app', ['ngRoute', 'spp.resolve']).
+      factory('ProductsService', function ($http) {
+        'use strict';
+
+        function getAllProducts() {
+          // return $http.get('/api/products');
+          var fake$http = {
+            success: function (cb) {
+              window.setTimeout(function () {
+                cb(['computer', 'pony', 'tricycle']);
+              }, 1500);
+              return fake$http;
+            },
+            error: angular.noop
+          };
+
+          return fake$http;
+        }
+
+        return {
+          getAllProducts: getAllProducts
+        }
+      }).
+      config(function ($routeProvider) {
+        'use strict';
+
+        function resolve(serviceSignature) {
+          return function (ResolveService) {
+            return ResolveService(serviceSignature);
+          };
+        }
+
+        $routeProvider.
+          when('/products', {
+            controller: 'ProductsCtrl',
+            template:
+              '<h1>I only appear after data has been resolved!</h1>' +
+              '<menu>' +
+              '  <li ng-repeat="product in products">{{product}}</li>' +
+              '</menu>',
+            resolve: {
+              products: resolve('ProductsService.getAllProducts')
+            }
+          });
+      }).
+      controller('ProductsCtrl', function ($scope, products) {
+        $scope.products = products;
+      });
+  </script>
+</body>
+</html>

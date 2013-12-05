@@ -1,7 +1,7 @@
 {
   "name": "spp.resolve",
   "main": "spp.resolve.js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "authors": [
     "Stephen Sawchuk <sawchuk@gmail.com>"
   ],
